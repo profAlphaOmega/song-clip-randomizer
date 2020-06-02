@@ -1,0 +1,62 @@
+{% extends 'dsx/base.html' %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+    {% endblock %}
+    {% block title %}Your HP{% endblock %}
+    {% block messages %}
+        <div class="col-xs-4 col-xs-offset-4">
+            {{ block.super }}
+        </div>
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+        <div class="" role="main">
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <div>
+                        <h1>Welcome; user: {{ user }}</h1>
+                    </div>
+                <form method="post"> {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{ form.song_title|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit"/>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                   <div class="col-xs-3">
+                <table class="table">
+                    <thead>
+                        <th>Song Title</th>
+                    </thead>
+                    <tbody>
+                    {% for record in data %}
+                        <tr>
+                            <td>{{ record.song_title }}</td>
+                                <form action="{% url 'DeleteSong' record.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-default">
+                                        <span class="">{{ record.id }}</span>
+                                    </button>
+                                </form>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+
+
+        </div>
+
+    {% endblock %}
+
+    {% block nav_active %}{% endblock %}

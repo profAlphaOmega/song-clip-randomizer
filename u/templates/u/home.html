@@ -1,0 +1,66 @@
+{% extends 'u/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/application.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/contextmenu.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+    {% block js %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block title %}U Home{% endblock %}
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+        <div class="" role="main">
+            {{ form.non_field_errors }}
+
+                <div class="col-xs-12">
+                    <div>
+                        <lead>Welcome; user: {{ user }}</lead>
+
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <ul>SONGS</ul>
+                    {% for song in songs %}
+                        <ul><a href="{{ song.get_absolute_url }}">{{ song.song_title }}</a></ul>
+                        {% endfor %}
+                </div>
+
+                <div class="col-xs-6">
+                        <p>Upload Your Files</p>
+                        <form action="{% url 'u:UploadSongFile' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                                {{ umediauploadform.file_field|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfile"/>
+                        </form>
+
+                </div>
+            <div class="col-xs-6">
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+    {% endblock %}
+
+    {% block nav_active %}uhome{% endblock %}

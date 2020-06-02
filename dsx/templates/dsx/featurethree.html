@@ -1,0 +1,82 @@
+{% extends 'dsx/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+    {% block css %}
+        {{ block.super }}
+            <style>
+            .mytext !important{
+                font-family:FaktProSoft,Helvetica Neue,helvetica,arial,sans-serif
+            }
+            </style>
+    {% endblock %}
+    {% block title %}FeatureThree{% endblock %}
+    {% block messages %}
+        <div class="col-xs-12">
+            {{ block.super }}
+        </div>
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+    <div class="jumbotron">
+        <div class="container theme-showcase" role="main">
+            <div class="starter-template">
+                <h1>Features Page</h1>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <form method="post"> {% csrf_token %}
+                            {{ form.email|as_crispy_field }}
+                            {{ form.message|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit"/>
+                        </form>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                       <!--<div class="" style="background-color: black; height: 300px;"></div>-->
+                        <img src="{% static 'img/dabeach.jpg' %}" class="'img-responsive" style='max-height: 400px; max-width: 300px;' />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        {% if request.user.is_authenticated and request.user.is_staff %}
+            <div class="container theme-showcase">
+                <div class="row">
+                   It's you, staff user: {{ user }} {{ user.email }}!
+                </div>
+            </div>
+        {% elif request.user.is_authenticated %}
+            <div class="container theme-showcase">
+                <div class="row">
+                   It's you, user: {{ user }} {{ user.email }}!
+                </div>
+            </div>
+        {% else %}
+            <div class="container theme-showcase">
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-4 mytext">Here is some text. New sentence, and some <b>bold</b> text.</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        </br>
+                        <span class="fa-stack fa-lg fa-5x">
+                            <i class="fa fa-bolt fa-stack-1x"></i>
+                            <i class="fa fa-comment-o fa-stack-2x"></i>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        </br>
+                        <span class="fa-stack fa-lg fa-5x">
+                            <i class="fa fa-circle-o-notch fa-stack-1x "></i>
+                            <i class="fa fa-circle-o-notch fa-4x fa-stack-2x"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    {% endblock %}
+
+    {% block nav_active %}home{% endblock %}

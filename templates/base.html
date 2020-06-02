@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+    <head>
+         <title>{% block title %}Newjack{% endblock %}</title>
+        <!--<script src=" {% static 'js/jquery-1.12.4.min.js'%}"></script>-->
+        <!--<script src=" {% static 'js/bootstrap.min.js'%}"></script>-->
+        <!--<script src=" {% static 'js/jquery-1.6.4.min.js'%}"></script>-->
+        <!--<script src=" {% static 'js/jquery-1.7.2.min.js'%}"></script>-->
+        <script src=" {% static 'js/jquery-1.12.4.min.js'%}"></script>
+        <script src=" {% static 'js/bootstrap.min.js' %}"></script>
+        <script src=" {% static 'js/jquery-1.6.4.min.js' %}"></script>
+        <script src=" {% static 'js/jquery-1.7.2.min.js' %}"></script>
+
+        {% include 'head_css.html' %}
+        {% block css %}{{ block.super }}{% endblock %}
+        {% block js %}{{ block.super }}{% endblock %}
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+        <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+
+    </head>
+
+    <body>
+
+
+    {% block messages %}
+    {% endblock %}
+
+
+    {% block content %}
+    {{ block.super }}
+
+    {% endblock %}
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+        <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+
+
+        {% block javascript %}<script>jQuery(function(){jQuery('#nav_{% block nav_active %}home{% endblock %}').addClass('active');})</script>{% endblock %}
+    </body>
+</html>

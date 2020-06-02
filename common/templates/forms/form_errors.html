@@ -1,0 +1,29 @@
+<div class='alert alert-danger'>
+  <p>There were errors in your form. Fix these issues to continue:</p>
+  <ul>
+  {# Form errors #}
+  {% for form in forms %}
+    {% for err in form.non_field_errors %}
+    <li>{{ err }}</li>
+    {% endfor %}
+  {% endfor %}
+  {# Field errors #}
+  {% for form in forms %}
+    {% for field in form %}
+      {% for err in field.errors %}
+      <li><strong>{{field.label}}</strong>: {{ err }}</li>
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+  {# Formset field errors #}
+  {% for formset in formsets %}
+    {% for set_form in formset %}
+      {% for field in set_form %}
+        {% for err in field.errors %}
+        <li><strong>{{field.label}}</strong>: {{ err }}</li>
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+  </ul>
+</div>

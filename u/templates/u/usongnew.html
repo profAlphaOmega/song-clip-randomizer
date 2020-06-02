@@ -1,0 +1,139 @@
+{% extends 'u/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/application.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/contextmenu.css' %}" rel="stylesheet">
+
+    <style>
+    .draw2d_InputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+    }
+    .draw2d_OutputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+        }
+    </style>
+{% endblock %}
+
+    {% block js %}
+        {{ block.super }}
+        <script type="text/javascript">var jsonDocument = {{ song_json|safe }} </script>
+
+        <script src=" {% static 'js/shifty.js' %}"></script>
+        <script src=" {% static 'js/raphael.js' %}"></script>
+        <script src=" {% static 'js/jquery.autoresize.js' %}"></script>
+        <script src=" {% static 'js/jquery-touch_punch.js' %}"></script>
+        <script src=" {% static 'js/jquery.contextmenu.js' %}"></script>
+        <script src=" {% static 'js/rgbcolor.js' %}"></script>
+        <script src=" {% static 'js/StackBlur.js' %}"></script>
+        <script src=" {% static 'js/canvg.js' %}"></script>
+        <script src=" {% static 'js/Class.js' %}"></script>
+        <script src=" {% static 'js/json2.js' %}"></script>
+        <script src=" {% static 'js/pathfinding-browser.min.js' %}"></script>
+        <script src=" {% static 'js/draw2d.js' %}"></script>
+        <script src=" {% static 'js/jquery.browser.js' %}"></script>
+        <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script src=" {% static 'js/Application.js' %}"></script>
+        <script src=" {% static 'js/View.js' %}"></script>
+        <script src=" {% static 'js/AlgoBaah.js' %}"></script>
+        <script src=" {% static 'js/TableShape.js' %}"></script>
+        <script src=" {% static 'js/newsong.js' %}"></script>
+        <script src=" {% static 'js/BetweenFigure.js' %}"></script>
+        <script src=" {% static 'js/MyInterceptorPolicy.js' %}"></script>
+        <script src=" {% static 'js/CopyInterceptorPolicy.js' %}"></script>
+
+
+        <script src=" {% static 'js/draw2dheaderjs.js' %}"></script>
+
+    {% endblock %}
+
+    {% block title %}New Song{% endblock %}
+
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+        <div class="" role="main">
+            {{ form.non_field_errors }}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <lead>Welcome; user: {{ user }}</lead>
+                        <lead>New Song</lead>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+           <div id="toolbar" class="navbar-default">
+               <form action="{% url 'u:SaveNewSong' %}" method="POST" style="float: left">{% csrf_token %}
+                <button class="gray" onclick="
+                while (document.getElementById('savesongtitle').getAttribute('value') == '')
+			        {
+				        var songName = prompt('Save Song', document.getElementById('savesongtitle').getAttribute('value'));
+				        if (songName)
+                        {
+					    document.getElementById('savesongtitle').setAttribute('value', songName);
+				        }
+			        }
+                document.getElementById('savejson').setAttribute('value', document.getElementById('json').innerHTML);
+                document.getElementById('saveseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
+                    ">Save</button>
+                    <input id="savejson" type="hidden" value="" name="savejson"/>
+                    <input id="savesongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
+                    <input id="saveseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
+               </form>
+                <button id="useed" class="gray" value="{{ song.song_seed }}" onclick="
+                var songName = prompt('Enter Seed',document.getElementById('useed').getAttribute('value'));
+			    if (songName)
+			    {
+				    document.getElementById('useed').innerHTML = 'Seed: ' + songName;
+				    document.getElementById('useed').setAttribute('value', songName);
+				var test = new Date();
+			    }">
+                   Seed: </button>
+               </div>
+
+           <div id="side-nav">
+             <span id="logo">newjack</span>
+             <div id="layer_elements"></div>
+             <div id="layer_header" class="highlight panetitle blackgradient">
+                 <div data-shape="Branch" data-name="Node" class="palette_node_element draw2d_droppable" title="Drag &amp;">Node</div>
+
+                 {% for song_file in songfiles %}
+                          <div data-shape="Wav" data-name="{{ song_file.label }}" data-file="{{ song_file.get_absolute_url }}" class="palette_node_element draw2d_droppable" title="Drag &amp;">
+                            {{ song_file.label }}
+                            <input id="id_file_field_{{ song_file.id }}" type="hidden" value="{{ song_file.id }}" name="a__c{{ forloop.counter }}__f{{ forloop.counter }}__equal"/>
+                          </div>
+                {% endfor %}
+             </div>
+           </div>
+
+           <div id="canvas" >
+           </div>
+           <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
+           <audio id="audio" preload="none" src=""></audio>
+
+
+
+
+ <script type="text/javascript">
+        var test = new Date();
+        var seed = test.getTime();
+        document.getElementById('useed').innerHTML = 'Seed: ' + seed;
+		document.getElementById('useed').setAttribute('value', seed);
+        </script>
+    {% endblock %}
+
+    {% block nav_active %}newsong{% endblock %}

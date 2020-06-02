@@ -1,0 +1,248 @@
+{% extends 'u/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/application.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/contextmenu.css' %}" rel="stylesheet">
+
+    <style>
+    .draw2d_InputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+    }
+    .draw2d_OutputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+        }
+    </style>
+{% endblock %}
+
+    {% block js %}
+        {{ block.super }}
+        <script type="text/javascript">var jsonDocument = {{ song_json|safe }} </script>
+        <script src="{% static 'js/shifty.js' %}"></script>
+        <script src="{% static 'js/raphael.js' %}"></script>
+        <script src="{% static 'js/jquery.autoresize.js' %}"></script>
+        <script src="{% static 'js/jquery-touch_punch.js' %}"></script>
+        <script src="{% static 'js/jquery.contextmenu.js' %}"></script>
+        <script src="{% static 'js/rgbcolor.js' %}"></script>
+        <script src="{% static 'js/StackBlur.js' %}"></script>
+        <script src="{% static 'js/canvg.js' %}"></script>
+        <script src="{% static 'js/Class.js' %}"></script>
+        <script src="{% static 'js/json2.js' %}"></script>
+        <script src="{% static 'js/pathfinding-browser.min.js' %}"></script>
+        <script src="{% static 'js/draw2d.js' %}"></script>
+        <script src="{% static 'js/jquery.browser.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script src="{% static 'js/Application.js' %}"></script>
+        <script src="{% static 'js/View.js' %}"></script>
+        <script src="{% static 'js/UShareBaah.js' %}"></script>
+        <script src="{% static 'js/TableShape.js' %}"></script>
+        <script src="{% static 'js/BetweenFigure.js' %}"></script>
+        <script src="{% static 'js/MyInterceptorPolicy.js' %}"></script>
+        <script src="{% static 'js/CopyInterceptorPolicy.js' %}"></script>
+        <script src="{% static 'js/draw2dheaderjs.js' %}"></script>
+
+        <!--<link rel='stylesheet' href='styles/main.css' />-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.0/css/iziModal.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/button.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/input.min.css">
+        <meta http-equiv="Cache-control" content="no-store"/>
+        <meta http-equiv="Cache-control" content="no-cache"/>
+        <meta http-equiv="cache-control" content="max-age=0"/>
+        <script src ="{% static 'js/uplayer/jquery.min.js' %}"></script>
+        <script src ="{% static 'js/uplayer/three.min.js' %}"></script>
+        <script src ="{% static 'js/uplayer/velocity.min.js' %}"></script>
+        <script src ="{% static 'js/uplayer/get-float-time-domain-data.js' %}"></script>
+        <script src ="{% static 'js/uplayer/dat.gui.min.js' %}"></script>
+        <script src ="{% static 'js/uplayer/stats.min.js' %}"></script>
+        <script src ="{% static 'js/uplayer/audioLoader.js' %}"></script>
+        <script src ="{% static 'js/uplayer/OrbitControls.js' %}"></script>
+        <script src ="{% static 'js/uplayer/CanvasRenderer.js' %}"></script>
+        <script src ="{% static 'js/uplayer/Projector.js' %}"></script>
+        <script src ="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.0/js/iziModal.min.js"></script>
+        <script src ="https://use.fontawesome.com/9605f1e41b.js"></script>
+
+
+    {% endblock %}
+
+    {% block title %}Song SHare{% endblock %}
+
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+
+    <div class="row">
+                <div class="col-xs-12">
+                        <lead>Welcome; user: {{ user }}</lead>
+                        <lead>{{ song.song_title }}</lead>
+                </div>
+            </div>
+        <div class="col-xs-12">
+            Share Link: newjack-steameng.appspot.com{% url 'u:USongShare' request.user song.id %}
+        </div>
+
+<div id="toolbar" class="navbar-default">
+
+
+
+               <button id="useed" class="gray" value="{{ song.song_seed }}" onclick="
+                var songName = prompt('Enter Seed',document.getElementById('useed').getAttribute('value'));
+			    if (songName)
+			    {
+				    document.getElementById('useed').innerHTML = 'Seed: ' + songName;
+				    document.getElementById('useed').setAttribute('value', songName);
+				var test = new Date();
+			    }">
+                   Seed: {{ song.song_seed }}
+               </button>
+
+               <button class="gray" onclick="
+                document.getElementById('audio').pause();
+                var test = new Date();
+                var seed = test.getTime()
+                document.getElementById('useed').innerHTML = 'Seed: ' + seed;
+                document.getElementById('useed').setAttribute('value', seed);
+                document.getElementById('audio').setAttribute('src', '');
+
+                ">
+                   Randomize
+               </button>
+
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
+
+               <button class="gray" onclick="app.audio.src = '/u/play/6/' + document.getElementById('useed').getAttribute('value'); app.audio.play();">
+               <!--if(document.getElementById('audio').getAttribute('src') == '')-->
+               <!--{-->
+                 <!--document.getElementById('audio').setAttribute('src', '/u/play/{{ song.id }}/' + document.getElementById('useed').getAttribute('value'));-->
+                 <!--}-->
+                    <!--document.getElementById('audio').play();">-->
+                   Play
+               </button>
+
+               <!--<button class="gray" onclick="document.getElementById('audio').pause();">Pause</button>-->
+
+                <button class="gray" onclick="app.audio.pause();">Pause</button>
+               <button class="gray" onclick="
+               document.getElementById('audio').setAttribute('src', '/u/play/{{ song.id }}/' + document.getElementById('useed').getAttribute('value'));
+               document.getElementById('audio').play();
+                ">
+                   Replay
+               </button>
+
+       </div>
+
+
+
+
+
+
+           <!--<div id="side-nav" >-->
+             <!--<span id="logo">{{ song.song_title }}</span>-->
+             <!--<div id="layer_elements"></div>-->
+             <!--<div id="layer_header" class="highlight panetitle blackgradient">-->
+                 <!--<div data-shape="Branch" data-name="Node" class="palette_node_element draw2d_droppable" title="Drag &amp; Drop">Node</div>-->
+
+                 <!--{% for song_file in songfiles %}-->
+                          <!--<div data-shape="Wav" data-name="{{ song_file.label }}" data-file="{{ song_file.get_absolute_url }}" class="palette_node_element draw2d_droppable" title="Drag &amp;">-->
+                              <!--{{ song_file.label }}-->
+                          <!--<input id="id_file_field_{{ song_file.id }}" type="hidden" value="{{ song_file.id }}" name="a__c{{ forloop.counter }}__f{{ forloop.counter }}__equal"/>-->
+                          <!--</div>-->
+
+                <!--{% endfor %}-->
+             <!--</div>-->
+           <!--</div>-->
+
+        <div id="player" class="col-xs-12" >
+
+       </div>
+
+           <!--<div id="canvas" >-->
+           <!--</div>-->
+           <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
+           <audio id="audio" preload="none" src=""></audio>
+
+
+
+    <script>
+        var nav = true;
+        var inst = true;
+        function onKeyDown(e) {
+        switch (e.which) {
+            case 78:
+                if(!nav){
+                    $('nav').css('visibility','visible');
+                    nav = !nav;
+                }
+                else {
+                    $('nav').css('visibility','hidden');
+                    nav = !nav;
+                }
+                break;
+            case 75:
+                if(!inst){
+                    $('#instructions').css('visibility','visible');
+                    inst = !inst;
+                }
+                else {
+                    $('#instructions').css('visibility','hidden');
+                    inst = !inst;
+                }
+            }
+        }
+        document.addEventListener('keydown', onKeyDown, false);
+        $('#notification').velocity('fadeIn', { delay: 150, duration: 1500 });
+        </script>
+        <script src="{% static 'js/uplayer/spiral.js' %}"></script>
+        <div id="modal" class="ui basic modal" style="background-color: rgba(0,0,0,0); box-shadow: none; text-align: center;">
+        <div class="ui icon input" style="margin: 20px;">
+        <input type="text" style="font-size: 20px;">
+        </div>
+        <div class="ui icon" style="margin: 20px;">
+        <button class="ui icon button" style="font-size: 20px;">
+        Busta Rhymes - Gimme Some More
+        </button>
+        </div>
+        <div class="ui icon buttons">
+        <button class="ui icon button" style="font-size: 100px;" onclick="javascript: (($('#audio1').get(0).paused) || ($('#audio1').get(0).ended)) ? $('#audio1').get(0).play() : $('#audio1').get(0).pause();">
+        <i class="fa fa-play-circle" aria-hidden="true"></i>
+        </button>
+        <button class="ui icon button" style="font-size: 100px;" onclick="javascript: $('#audio1').get(0).src = $('#audio1').get(0).src + '1'">
+        <i class="fa fa-random" aria-hidden="true"></i>
+        </button>
+        </div>
+        <div class="ui icon buttons" style="margin: 20px;">
+        <button class="ui icon button" style="font-size: 20px;">
+        dog pig cat
+        </button>
+        </div>
+        </div>
+        <script type="text/javascript">
+        $('#modal').iziModal();
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endblock %}
+
+    {% block nav_active %}uhome{% endblock %}

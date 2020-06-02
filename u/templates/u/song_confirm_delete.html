@@ -1,0 +1,44 @@
+{% extends 'u/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/application.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/contextmenu.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+    {% block js %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block title %}U Sure?{% endblock %}
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+        <div class="" role="main">
+        <div class="col-xs-6 col-xs-offset-3">
+        <form action="{% url 'u:DeleteSong' song.id %}" method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{ song.song_title }}</p>
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'u:USong' song.id %}" class="btn btn-default">Cancel</a>
+        </form>
+        </div>
+
+
+
+        </div>
+
+
+    {% endblock %}
+
+    {% block nav_active %}uhome{% endblock %}

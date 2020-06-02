@@ -1,0 +1,62 @@
+{% extends 'u/base.html' %}
+{% load crispy_forms_tags %}
+{% load common_forms %}
+
+    {% block css %}
+        {{ block.super }}
+        <!--<style></style>-->
+    {% endblock %}
+    {% block title %}Your Song{% endblock %}
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+        <div class="" role="main">
+            {{ form.non_field_errors }}
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <div>
+                        <h1>Welcome; user: {{ user }}</h1>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <th>Song Title</th>
+                            </thead>
+                            <tbody>
+                                 <tr>
+                                    <td>{{ song.song_title }}</td>
+                                    <form action="{% url 'u:DeleteSong' song.id %}" method="POST">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-default">
+                                            <span class="">{{ song.id }}</span>
+                                        </button>
+                                    </form>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <th>Song File</th>
+                            </thead>
+                            <tbody>
+                                {% for song_file in songfiles %}
+                                    <tr>
+                                        <td>{{ song_file.song_file }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+
+    {% block nav_active %}{% endblock %}

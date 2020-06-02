@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block css %}
+        {{ block.super }}
+        <style>body {padding-top:100px}</style>
+    {% endblock %}
+
+    {% block content%}
+        {% include "navbar.html" %}
+
+        <div class="container theme-showcase" role="main">
+            <p class='text-align-center lead'>You have successfully logged out.</p>
+            <p class='text-align-center lead'>
+                <a href="{% url 'auth_login' %}">Login</a>
+            </p>
+            </p>
+        </div>
+
+    {% endblock %}

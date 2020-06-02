@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block css %}
+        {{ block.super }}
+        <style>body {padding-top:50px}</style>
+    {% endblock %}
+
+    {% block content%}
+        {% include "navbar.html" %}
+
+    <div class="jumbotron">
+        <div class="container theme-showcase" role="main">
+            <h1>{% trans "Account activation success!" %}</h1>
+            <div class="col-sm-6 col-md-8">
+                <div class="row">
+                    <p class='lead'>Try these things next:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

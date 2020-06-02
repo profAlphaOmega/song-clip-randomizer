@@ -1,0 +1,27 @@
+{% load common_forms %}
+<div class='form-group '>
+  {% for field, col_w, label, help, errors, checkbox in fields %}
+  <div class='col-sm-{{col_w}} {% if field.errors %}has-error{%endif%}'>
+    {% block label %}
+    {% if label %}{% include label %}{% endif %}
+    {% endblock %}
+
+    {% block field %}
+    {% if checkbox %}
+    <div class='checkbox'>
+      <label>{% form_render_input field inline=cr_inline %}
+        {{ field.label }}
+      </label>
+    </div>
+    {% else %}
+      {% form_render_input field inline=cr_inline %}
+    {% endif %}
+    {% endblock %}
+
+    {% block help %}{% if help %}{% include help %}{% endif %}{% endblock %}
+    {% block errors %}
+      {% if errors %}{% include errors %}{% endif %}
+    {% endblock %}
+  </div>
+  {% endfor %}
+</div>
